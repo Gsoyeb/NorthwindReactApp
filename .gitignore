@@ -1,0 +1,63 @@
+# Ignore build outputs and artifacts #
+[Bb]in/
+[Oo]bj/
+*.cache
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Ignore NuGet packages #
+packages/
+*.nuget.g.props
+*.nuget.g.targets
+project.lock.json
+project.assets.json
+*.paket.resolved
+
+# Ignore VS Code settings #
+.vscode/
+
+# Ignore Visual Studio specific files #
+*.v2
+*.vsidx
+.ReSharper*/  # if using ReSharper
+*.ncrunchproject
+*.ncrunchsolution
+*.dotCover
+TestResult*/  # if using VS test tools
+
+# Ignore Rider IDE specific files #
+.idea/
+
+# Ignore system generated files #
+.DS_Store
+Thumbs.db
+
+# Ignore logs and temp files #
+*.log
+*.tmp
+
+# Ignore build directories #
+build/
+dist/
+
+# Include configuration files #
+!launchsettings.json
+!tsconfig.json
+
+# Ignore sensitive or environment-specific configuration #
+.env
+secrets.json
+
+# Ignore other unnecessary files #
+*.tlog
+*.vspscc
+*.vssscc
+
+# Ignore node_modules for front-end dependencies #
+node_modules/
+
+# Ignore yarn.lock or package-lock.json depending on your package manager choice #
+yarn.lock
+package-lock.json

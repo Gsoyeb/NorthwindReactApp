@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>NorthwindReactApp.Services</AssemblyName>
+    <RootNamespace>NorthwindReactApp.Services</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NorthwindReactApp.Domain\NorthwindReactApp.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

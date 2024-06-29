@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NorthwindReactApp.Domain\NorthwindReactApp.Domain.csproj" />
+    <ProjectReference Include="..\NorthwindReactApp.Infrastructure\NorthwindReactApp.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,46 @@
+﻿# 1. Define the base image using the .NET SDK 8.0. This will be our base stage where we perform build operations.
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS base
+
+# 2. Set the working directory in the base image.
+WORKDIR /app
+
+# 3. Expose ports to be used by the application.
+EXPOSE 8080  # HTTP
+EXPOSE 8081  # HTTPS
+
+# 4. Define the build stage using the .NET SDK 8.0. This is where we build the application.
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+
+# 5. Copy the project files to the build stage. This ensures that all dependencies are available for building.
+COPY ["NorthwindReactApp.Server/NorthwindReactApp.Server.csproj", "NorthwindReactApp.Server/"]
+COPY ["NorthwindReactApp.Infrastructure/NorthwindReactApp.Infrastructure.csproj", "NorthwindReactApp.Infrastructure/"]
+COPY ["NorthwindReactApp.Domain/NorthwindReactApp.Domain.csproj", "NorthwindReactApp.Domain/"]
+
+# 6. Restore the dependencies for the main project (Server). This ensures all project dependencies are downloaded.
+RUN dotnet restore "NorthwindReactApp.Server/NorthwindReactApp.Server.csproj"
+
+# 7. Copy the remaining source code to the build stage.
+COPY . .
+
+# 8. Set the working directory to the main project (Server).
+WORKDIR "/src/NorthwindReactApp.Server"
+
+# 9. Build the application in the specified configuration (Release). The output is placed in the /app/build directory.
+RUN dotnet build "NorthwindReactApp.Server.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+# 10. Define the publish stage to create a final build artifact. This stage publishes the application to the /app/publish directory.
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "NorthwindReactApp.Server.csproj" -c $BUILD_CONFIGURATION -o /app/publish
+
+# 11. Define the final stage, which uses the base image. This stage sets up the runtime environment for the application.
+FROM base AS final
+WORKDIR /app
+
+# 12. Copy the published output from the publish stage to the final stage.
+COPY --from=publish /app/publish .
+
+# 13. Set the entry point for the Docker container to run the application.
+ENTRYPOINT ["dotnet", "NorthwindReactApp.Server.dll"]
